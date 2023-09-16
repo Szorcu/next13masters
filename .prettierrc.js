@@ -8,4 +8,4 @@ module.exports = {
 	useTabs: true,
 	plugins: ["prettier-plugin-tailwindcss"],
 	tailwindConfig: "./tailwind.config.ts",
-};
+}
