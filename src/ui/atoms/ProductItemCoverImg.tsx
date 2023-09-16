@@ -7,8 +7,8 @@ type ProductItemCoverImgProps = {
 
 export const ProductItemCoverImg = ({ src, alt }: ProductItemCoverImgProps) => {
 	return (
-		<div className="bg-slate-50 p-4">
-			<img className="" src={src} alt={alt} />
+		<div className="overflow-hidden">
+			<img className="w-full transition hover:scale-105" src={src} alt={alt} />
 		</div>
 	)
 }
