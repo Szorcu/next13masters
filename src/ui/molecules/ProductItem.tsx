@@ -13,7 +13,7 @@ export const ProductItem = ({ product }: ProductItemProps) => {
 
 	return (
 		<li>
-			<Link href={`/product/${id}`}>
+			<Link href={`/products/${id}`}>
 				<article className="grid cursor-pointer gap-2">
 					<ProductItemCoverImg src={image} alt={title} />
 					<ProductItemDescription {...product} />

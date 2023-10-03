@@ -9,12 +9,14 @@ import React from "react"
 type ActiveLinkProps<T extends string> = {
 	text: string
 	href: Route<T>
+
+	exact?: boolean
 }
 
-export const ActiveLink = <T extends string>({ text, href }: ActiveLinkProps<T>) => {
+export const ActiveLink = <T extends string>({ text, href, exact = true }: ActiveLinkProps<T>) => {
 	const pathname = usePathname()
 
-	const isActive = pathname === href
+	const isActive = exact ? pathname === href : pathname.startsWith(href)
 
 	return (
 		<Link

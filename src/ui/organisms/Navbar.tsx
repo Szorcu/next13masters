@@ -5,7 +5,7 @@ export const Navbar = () => {
 	return (
 		<nav className="flex gap-4 px-6 py-4">
 			<ActiveLink href="/" text="Home" />
-			<ActiveLink href="/products" text="Products" />
+			<ActiveLink href="/products" text="Products" exact={false} />
 		</nav>
 	)
 }
