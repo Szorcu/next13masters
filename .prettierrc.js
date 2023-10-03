@@ -1,11 +1,11 @@
 /** @type {import("prettier").Config} */
 
 module.exports = {
-	semi: true,
+	semi: false,
 	singleQuote: false,
 	trailingComma: "all",
 	printWidth: 100,
 	useTabs: true,
-	plugins: [import("prettier-plugin-tailwindcss")],
+	plugins: ["prettier-plugin-tailwindcss"],
 	tailwindConfig: "./tailwind.config.ts",
-};
+}
