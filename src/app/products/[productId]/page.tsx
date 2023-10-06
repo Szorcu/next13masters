@@ -1,4 +1,6 @@
 import React from "react"
+import { type Product } from "@/ui/types"
+import { basicInstance } from "@/api/instance"
 
 type ProductDetailsPageProps = {
 	params: {
@@ -6,10 +8,17 @@ type ProductDetailsPageProps = {
 	}
 }
 
-const ProductDetailsPage = ({ params }: ProductDetailsPageProps) => {
+const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
 	const { productId } = params
 
-	return <div>ProductDetailsPage {productId}</div>
+	const response = await basicInstance.get(`products/${productId}`)
+	const productDetails = response.data as Product
+
+	return (
+		<div>
+			<h1>{productDetails.title}</h1>
+		</div>
+	)
 }
 
 export default ProductDetailsPage

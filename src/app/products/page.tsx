@@ -1,9 +1,9 @@
-import axios from "axios"
 import { ProductList } from "@/ui/organisms/ProductList"
 import { type Product } from "@/ui/types"
+import { basicInstance } from "@/api/instance"
 
 const ProductsPage = async () => {
-	const response = await axios.get("https://naszsklep-api.vercel.app/api/products?take=20")
+	const response = await basicInstance.get("products?take=20")
 	const products = response.data as Product[]
 
 	return (
