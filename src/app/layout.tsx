@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 		<html lang="en">
 			<body className={robotoFont.className}>
 				<Navbar />
-				{children}
+				<div className="p-6">{children}</div>
 			</body>
 		</html>
 	)
