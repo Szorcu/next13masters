@@ -17,6 +17,7 @@ export const ActiveLink = <T extends string>({ text, href, exact = true }: Activ
 	const pathname = usePathname()
 
 	const isActive = exact ? pathname === href : pathname.startsWith(href)
+	const ariaCurrent = isActive ? "page" : undefined
 
 	return (
 		<Link
@@ -24,7 +25,7 @@ export const ActiveLink = <T extends string>({ text, href, exact = true }: Activ
 				"text-yellow-400": isActive,
 			})}
 			href={href}
-			aria-current={isActive}
+			aria-current={ariaCurrent}
 		>
 			{text}
 		</Link>
