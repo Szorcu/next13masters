@@ -8,6 +8,10 @@ type ProductsPaginatedPageProps = {
 	}
 }
 
+export const generateStaticParams = () => {
+	return [{ pageNumber: "1" }, { pageNumber: "2" }, { pageNumber: "3" }]
+}
+
 const ProductsPaginatedPage = async ({ params }: ProductsPaginatedPageProps) => {
 	const { pageNumber } = params
 

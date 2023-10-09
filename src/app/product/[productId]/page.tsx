@@ -1,6 +1,7 @@
 import React from "react"
 import { type Metadata } from "next"
 import { getProductById } from "@/api/getProductById"
+import { ProductItemCoverImg } from "@/ui/atoms/ProductItemCoverImg"
 
 type ProductDetailsPageProps = {
 	params: {
@@ -26,9 +27,10 @@ const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
 
 	return (
 		<div>
-			<h1 className="text-lg font-bold">{product.title}</h1>
-			<p className="mb-4 mt-2">{product.description}</p>
-			<p>{product.longDescription}</p>
+			<ProductItemCoverImg src={product.image} alt={product.title} />
+			<h1 className="mt-8 text-lg font-bold text-gray-800">{product.title}</h1>
+			<p className="mt-1 text-gray-500">{product.description}</p>
+			<p className="mt-4 text-gray-800">{product.longDescription}</p>
 		</div>
 	)
 }
