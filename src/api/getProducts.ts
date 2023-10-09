@@ -1,7 +1,7 @@
 import { basicInstance } from "./instance"
 import { type Product } from "@/ui/types"
 
-const PRODUCTS_PER_PAGE = 20
+const PRODUCTS_PER_PAGE = 10
 
 export const getProducts = async (pageNumber: number) => {
 	const offset = (pageNumber - 1) * PRODUCTS_PER_PAGE
