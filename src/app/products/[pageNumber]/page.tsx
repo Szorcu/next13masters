@@ -1,6 +1,7 @@
-import { ProductList } from "@/ui/organisms/ProductList"
-import { ProductsPagination } from "@/ui/organisms/ProductsPagination"
-import { getProducts } from "@/api/getProducts"
+import { notFound } from "next/navigation"
+import { ProductList } from "@ui/organisms/ProductList"
+import { ProductsPagination } from "@ui/organisms/ProductsPagination"
+import { getProducts } from "@api/calls/getProducts"
 
 type ProductsPaginatedPageProps = {
 	params: {
@@ -15,8 +16,11 @@ export const generateStaticParams = () => {
 const ProductsPaginatedPage = async ({ params }: ProductsPaginatedPageProps) => {
 	const { pageNumber } = params
 
-	const parsedPageNumber = parseInt(pageNumber)
-	const products = await getProducts(parsedPageNumber)
+	const products = await getProducts()
+
+	if (!products) {
+		notFound()
+	}
 
 	return (
 		<section>

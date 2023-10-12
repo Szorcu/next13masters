@@ -21,8 +21,13 @@
 			}
 		],
 		"paths": {
-			"@/*": ["./src/*"],
-			"@ui/*": ["./src/ui/*"]
+			"@api/*": ["./src/api/*"],
+			"@app/*": ["./src/app/*"],
+			"@gql/*": ["./src/gql/*"],
+			"@graphql/*": ["./src/graphql/*"],
+			"@ui/*": ["./src/ui/*"],
+			"@utils/*": ["./src/utils/*"],
+			"@/*": ["./src/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".graphqlrc.ts"],

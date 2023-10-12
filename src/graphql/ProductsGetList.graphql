@@ -1,5 +1,5 @@
 query ProductsGetList {
-	products(first: 10) {
+	products(first: 4) {
 		id
 		name
 		description
