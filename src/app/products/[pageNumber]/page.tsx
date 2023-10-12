@@ -16,9 +16,9 @@ export const generateStaticParams = () => {
 const ProductsPaginatedPage = async ({ params }: ProductsPaginatedPageProps) => {
 	const { pageNumber } = params
 
-	const products = await getProducts()
+	const products = await getProducts(parseInt(pageNumber))
 
-	if (!products) {
+	if (products.length === 0) {
 		notFound()
 	}
 

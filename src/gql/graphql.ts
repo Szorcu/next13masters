@@ -10731,7 +10731,10 @@ export type ProductsGetByCategorySlugQueryVariables = Exact<{
 
 export type ProductsGetByCategorySlugQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
 
-export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductsGetListQueryVariables = Exact<{
+  productsPerPage: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+}>;
 
 
 export type ProductsGetListQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
@@ -10784,7 +10787,7 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
 }`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
     query ProductsGetByCategorySlug($slug: String!) {
-  products(first: 10, where: {categories_some: {slug: $slug}}) {
+  products(first: 4, where: {categories_some: {slug: $slug}}) {
     id
     name
     description
@@ -10799,8 +10802,8 @@ export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<ProductsGetByCategorySlugQuery, ProductsGetByCategorySlugQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
-    query ProductsGetList {
-  products(first: 10) {
+    query ProductsGetList($productsPerPage: Int!, $offset: Int!) {
+  products(first: $productsPerPage, skip: $offset) {
     id
     name
     description
