@@ -35,17 +35,19 @@ const CategoryProductsPage = async ({ params }: CategoryProductsPageProps) => {
 	}
 
 	return (
-		<section className="grid gap-8">
+		<main className="flex flex-1 flex-col gap-8">
 			<header>
 				<h1 className="text-xl font-bold">{categoryName}</h1>
 			</header>
 
-			<ProductList {...{ products }} />
-			<ProductsPagination
-				productsCount={allProductsCount}
-				pathBase={`categories/${categorySlug}`}
-			/>
-		</section>
+			<section className="flex flex-1 flex-col justify-between gap-6">
+				<ProductList {...{ products }} />
+				<ProductsPagination
+					productsCount={allProductsCount}
+					pathBase={`categories/${categorySlug}`}
+				/>
+			</section>
+		</main>
 	)
 }
 

@@ -15,6 +15,9 @@ const config: Config = {
 			minWidth: {
 				"3rem": "3rem",
 			},
+			maxWidth: {
+				"20rem": "20rem",
+			},
 		},
 	},
 	plugins: [],

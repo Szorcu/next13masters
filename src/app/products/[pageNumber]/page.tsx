@@ -25,10 +25,16 @@ const ProductsPage = async ({ params }: ProductsPageProps) => {
 	}
 
 	return (
-		<section>
-			<ProductList {...{ products }} />
-			<ProductsPagination productsCount={allProductsCount} pathBase="products" />
-		</section>
+		<main className="flex flex-1 flex-col gap-8">
+			<header>
+				<h1 className="text-xl font-bold">All products</h1>
+			</header>
+
+			<section className="flex flex-1 flex-col justify-between gap-6">
+				<ProductList {...{ products }} />
+				<ProductsPagination productsCount={allProductsCount} pathBase="products" />
+			</section>
+		</main>
 	)
 }
 
