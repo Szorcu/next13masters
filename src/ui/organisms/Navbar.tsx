@@ -3,7 +3,7 @@ import { NavbarLink } from "@ui/molecules/NavbarLink"
 
 export const Navbar = () => {
 	return (
-		<nav className="\ flex gap-8 bg-white px-6">
+		<nav className="border-b-1 flex h-16 items-center gap-8 border-b border-slate-200 bg-white px-6">
 			<NavbarLink href="/" text="Home" />
 			<NavbarLink href="/products" text="All" exact={false} />
 			<NavbarLink href="/categories/t-shirts" text="T-shirts" exact={false} />
