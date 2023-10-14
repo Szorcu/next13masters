@@ -3,6 +3,8 @@ import { notFound } from "next/navigation"
 import { getProductsByCategorySlug } from "@api/calls/getProductsByCategorySlug"
 import { ProductList } from "@ui/organisms/ProductList"
 import { capitalizeString } from "@utils/capitalizeString"
+import { ProductsPagination } from "@ui/organisms/ProductsPagination"
+import { getProductsCountByCategory } from "@api/calls/getProductsCountByCategory"
 
 type CategoryProductsPageProps = {
 	params: {
@@ -26,6 +28,7 @@ const CategoryProductsPage = async ({ params }: CategoryProductsPageProps) => {
 	const categoryName = capitalizeString(categorySlug)
 
 	const products = await getProductsByCategorySlug(categorySlug, parseInt(pageNumber))
+	const allProductsCount = await getProductsCountByCategory(categorySlug)
 
 	if (products.length === 0) {
 		notFound()
@@ -38,6 +41,10 @@ const CategoryProductsPage = async ({ params }: CategoryProductsPageProps) => {
 			</header>
 
 			<ProductList {...{ products }} />
+			<ProductsPagination
+				productsCount={allProductsCount}
+				pathBase={`categories/${categorySlug}`}
+			/>
 		</section>
 	)
 }

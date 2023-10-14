@@ -2,11 +2,15 @@ import React from "react"
 import { ActiveLink } from "../atoms/ActiveLink"
 import { PRODUCTS_PER_PAGE } from "@/constants/common"
 
-type ProductsPaginationProps = {
+type ProductsPaginationProps<T extends string> = {
 	productsCount: number
+	pathBase: "products" | `categories/${string}`
 }
 
-export const ProductsPagination = ({ productsCount }: ProductsPaginationProps) => {
+export const ProductsPagination = <T extends string>({
+	productsCount,
+	pathBase,
+}: ProductsPaginationProps<T>) => {
 	const numberOfPages = Math.ceil(productsCount / PRODUCTS_PER_PAGE)
 	const pages = Array(numberOfPages).fill(0)
 
@@ -18,7 +22,7 @@ export const ProductsPagination = ({ productsCount }: ProductsPaginationProps) =
 
 					return (
 						<li key={index}>
-							<ActiveLink text={pageNumer.toString()} href={`/products/${pageNumer}`} />
+							<ActiveLink text={pageNumer.toString()} href={`/${pathBase}/${pageNumer}`} />
 						</li>
 					)
 				})}

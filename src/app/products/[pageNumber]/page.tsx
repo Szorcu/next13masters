@@ -27,7 +27,7 @@ const ProductsPage = async ({ params }: ProductsPageProps) => {
 	return (
 		<section>
 			<ProductList {...{ products }} />
-			<ProductsPagination productsCount={allProductsCount} />
+			<ProductsPagination productsCount={allProductsCount} pathBase="products" />
 		</section>
 	)
 }
