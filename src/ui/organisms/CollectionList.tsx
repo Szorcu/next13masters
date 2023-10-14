@@ -8,7 +8,7 @@ type CollectionListProps = {
 
 export const CollectionList = ({ collections }: CollectionListProps) => {
 	return (
-		<ul className="flex gap-4" data-testid="products-list">
+		<ul className="flex justify-center gap-4" data-testid="products-list">
 			{collections.map((collection) => (
 				<CollectionItem key={collection.id} {...{ collection }} />
 			))}

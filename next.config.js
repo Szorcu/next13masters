@@ -4,6 +4,9 @@ const nextConfig = {
 		appDir: true,
 		typedRoutes: true,
 	},
+	images: {
+		domains: ["media.graphassets.com"],
+	},
 	redirects: async () => {
 		return [
 			{
