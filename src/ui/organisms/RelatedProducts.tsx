@@ -1,7 +1,7 @@
 import React from "react"
-import { ProductList } from "./ProductList"
 import { getProductsRelated } from "@api/calls/getProductsRelated"
 import { type ProductDetailFragment } from "@gql/graphql"
+import { ProductItem } from "@ui/molecules/ProductItem"
 
 type RelatedProductsProps = {
 	product: ProductDetailFragment
@@ -15,5 +15,14 @@ export const RelatedProducts = async ({ product }: RelatedProductsProps) => {
 
 	const relatedProducts = await getProductsRelated(productCategorySlug, productCollectionSlug)
 
-	return <ProductList products={relatedProducts} data-testid="related-products" />
+	return (
+		<ul
+			className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
+			data-testid="related-products"
+		>
+			{relatedProducts.map((product) => (
+				<ProductItem key={product.id} {...{ product }} />
+			))}
+		</ul>
+	)
 }

@@ -10,10 +10,18 @@ type ActiveLinkProps<T extends string> = {
 	text: string
 	href: Route<T>
 
+	className?: string
+	activeClassName?: string
 	exact?: boolean
 }
 
-export const ActiveLink = <T extends string>({ text, href, exact = true }: ActiveLinkProps<T>) => {
+export const ActiveLink = <T extends string>({
+	text,
+	href,
+	className,
+	activeClassName,
+	exact = true,
+}: ActiveLinkProps<T>) => {
 	const pathname = usePathname()
 
 	const isActive = exact ? pathname === href : pathname.startsWith(href)
@@ -21,7 +29,7 @@ export const ActiveLink = <T extends string>({ text, href, exact = true }: Activ
 
 	return (
 		<Link
-			className={clsx("hover:text-yellow-300", {
+			className={clsx("hover:text-yellow-300", className, isActive && activeClassName, {
 				"text-yellow-400": isActive,
 			})}
 			href={href}

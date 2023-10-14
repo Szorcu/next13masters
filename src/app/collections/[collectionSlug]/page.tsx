@@ -1,5 +1,6 @@
 import React from "react"
 import { notFound } from "next/navigation"
+import { type Metadata } from "next"
 import { ProductList } from "@ui/organisms/ProductList"
 import { getProductsByCollectionSlug } from "@api/calls/getProductsByCollectionSlug"
 import { getCollectionBySlug } from "@api/calls/getCollectionBySlug"
@@ -7,6 +8,19 @@ import { getCollectionBySlug } from "@api/calls/getCollectionBySlug"
 type CollectionProductsPageProps = {
 	params: {
 		collectionSlug: string
+	}
+}
+
+export const generateMetadata = async ({
+	params,
+}: CollectionProductsPageProps): Promise<Metadata> => {
+	const { collectionSlug } = params
+
+	const collectionDetail = await getCollectionBySlug(collectionSlug)
+	const collectionName = collectionDetail?.name
+
+	return {
+		title: `Shop - ${collectionName}`,
 	}
 }
 

@@ -13,4 +13,14 @@ fragment ProductDetail on Product {
 		url
 	}
 	price
+	variants {
+		... on ProductColorVariant {
+			__typename
+			name
+		}
+		... on ProductSizeVariant {
+			__typename
+			name
+		}
+	}
 }
