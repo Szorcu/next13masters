@@ -28,6 +28,7 @@ const documents = {
     "query ProductsGetCountByCategory($categorySlug: String = \"\") {\n  productsConnection(where: {categories_some: {slug: $categorySlug}}) {\n    aggregate {\n      count\n    }\n  }\n}": types.ProductsGetCountByCategoryDocument,
     "query ProductsGetList($productsPerPage: Int!, $offset: Int!) {\n  products(first: $productsPerPage, skip: $offset) {\n    ...ProductListItem\n  }\n}": types.ProductsGetListDocument,
     "query ProductsGetRelated($categorySlug: String!, $collectionSlug: String!) {\n  products(\n    first: 4\n    where: {OR: [{categories_some: {slug: $categorySlug}}, {collections_some: {slug: $collectionSlug}}]}\n  ) {\n    ...ProductListItem\n  }\n}": types.ProductsGetRelatedDocument,
+    "mutation ReviewCreate($headline: String!, $content: String!, $rating: Int!, $name: String!, $email: String!) {\n  createReview(\n    data: {headline: $headline, content: $content, rating: $rating, name: $name, email: $email}\n  ) {\n    id\n  }\n}": types.ReviewCreateDocument,
 };
 
 /**
@@ -86,6 +87,10 @@ export function graphql(source: "query ProductsGetList($productsPerPage: Int!, $
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query ProductsGetRelated($categorySlug: String!, $collectionSlug: String!) {\n  products(\n    first: 4\n    where: {OR: [{categories_some: {slug: $categorySlug}}, {collections_some: {slug: $collectionSlug}}]}\n  ) {\n    ...ProductListItem\n  }\n}"): typeof import('./graphql').ProductsGetRelatedDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "mutation ReviewCreate($headline: String!, $content: String!, $rating: Int!, $name: String!, $email: String!) {\n  createReview(\n    data: {headline: $headline, content: $content, rating: $rating, name: $name, email: $email}\n  ) {\n    id\n  }\n}"): typeof import('./graphql').ReviewCreateDocument;
 
 
 export function graphql(source: string) {
