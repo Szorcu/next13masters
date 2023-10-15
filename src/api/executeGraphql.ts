@@ -1,4 +1,3 @@
-import axios from "axios"
 import { type TypedDocumentString } from "@/gql/graphql"
 
 type GraphQLResponse<T> =
@@ -13,11 +12,17 @@ export const executeGraphql = async <TResult, TVariables>(
 		throw TypeError("GRAPHQL_URL is not defined")
 	}
 
-	const axiosResponse = await axios.post(process.env.GRAPHQL_URL, {
-		query,
-		variables,
+	const response = await fetch(process.env.GRAPHQL_URL, {
+		method: "POST",
+		body: JSON.stringify({
+			query,
+			variables,
+		}),
+		headers: {
+			"Content-Type": "application/json",
+		},
 	})
-	const graphqlResponse = axiosResponse.data as GraphQLResponse<TResult>
+	const graphqlResponse = (await response.json()) as GraphQLResponse<TResult>
 
 	if (graphqlResponse.errors) {
 		throw TypeError(`GraphQL Error`, {
