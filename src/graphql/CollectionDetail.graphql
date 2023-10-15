@@ -1,0 +1,4 @@
+fragment CollectionDetail on Collection {
+	name
+	description
+}

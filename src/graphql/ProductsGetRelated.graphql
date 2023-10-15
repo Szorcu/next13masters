@@ -1,0 +1,13 @@
+query ProductsGetRelated($categorySlug: String!, $collectionSlug: String!) {
+	products(
+		first: 4
+		where: {
+			OR: [
+				{ categories_some: { slug: $categorySlug } }
+				{ collections_some: { slug: $collectionSlug } }
+			]
+		}
+	) {
+		...ProductListItem
+	}
+}

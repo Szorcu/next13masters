@@ -1,11 +1,19 @@
 import React from "react"
-import { ActiveLink } from "../atoms/ActiveLink"
+import { NavbarLink } from "@ui/molecules/NavbarLink"
+import { SearchBox } from "@ui/atoms/SearchBox"
 
 export const Navbar = () => {
 	return (
-		<nav className="flex gap-4 bg-white px-6 py-4 shadow">
-			<ActiveLink href="/" text="Home" />
-			<ActiveLink href="/products" text="All" exact={false} />
+		<nav className="border-b-1 flex h-16 items-center justify-between gap-4 border-b border-slate-200 bg-white px-6">
+			<ul className="flex h-full items-center gap-8">
+				<NavbarLink href="/" text="Home" />
+				<NavbarLink href="/products" text="All" exact={false} />
+				<NavbarLink href="/categories/t-shirts" text="T-shirts" exact={false} />
+				<NavbarLink href="/categories/hoodies" text="Hoodies" exact={false} />
+				<NavbarLink href="/categories/accessories" text="Accessories" exact={false} />
+			</ul>
+
+			<SearchBox />
 		</nav>
 	)
 }

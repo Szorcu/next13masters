@@ -1,9 +1,9 @@
 import React from "react"
-import { type Product } from "@ui/types"
 import { ProductItem } from "@ui/molecules/ProductItem"
+import { type ProductListItemFragment } from "@/gql/graphql"
 
 type ProductListProps = {
-	products: Product[]
+	products: ProductListItemFragment[]
 }
 
 export const ProductList = ({ products }: ProductListProps) => {

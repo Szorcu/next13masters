@@ -1,7 +1,9 @@
 import React from "react"
 import { type Metadata } from "next"
-import { getProductById } from "@/api/getProductById"
+import { notFound } from "next/navigation"
 import { ProductItemCoverImg } from "@/ui/atoms/ProductItemCoverImg"
+import { getProductById } from "@api/calls/getProductById"
+import { RelatedProducts } from "@ui/organisms/RelatedProducts"
 
 type ProductDetailsPageProps = {
 	params: {
@@ -15,8 +17,8 @@ export const generateMetadata = async ({ params }: ProductDetailsPageProps): Pro
 	const product = await getProductById(productId)
 
 	return {
-		title: `Shop - ${product.title}`,
-		description: product.description,
+		title: `Shop - ${product?.name}`,
+		description: product?.description,
 	}
 }
 
@@ -25,12 +27,19 @@ const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
 
 	const product = await getProductById(productId)
 
+	if (!product) {
+		notFound()
+	}
+
 	return (
-		<div>
-			<ProductItemCoverImg src={product.image} alt={product.title} />
-			<h1 className="mt-8 text-lg font-bold text-gray-800">{product.title}</h1>
-			<p className="mt-1 text-gray-500">{product.description}</p>
-			<p className="mt-4 text-gray-800">{product.longDescription}</p>
+		<div className="grid gap-8">
+			<div>
+				<ProductItemCoverImg src={product.images[0].url} alt={product.name} />
+				<h1 className="mt-8 text-lg font-bold text-gray-800">{product.name}</h1>
+				<p className="mt-1 text-gray-500">{product.description}</p>
+			</div>
+
+			<RelatedProducts {...{ product }} />
 		</div>
 	)
 }
