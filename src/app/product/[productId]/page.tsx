@@ -5,6 +5,9 @@ import { ProductItemCoverImg } from "@/ui/atoms/ProductItemCoverImg"
 import { getProductById } from "@api/calls/getProductById"
 import { RelatedProducts } from "@ui/organisms/RelatedProducts"
 import { AddReviewForm } from "@ui/molecules/AddReviewForm"
+import { ReviewList } from "@ui/molecules/ReviewList"
+import { getReviewsByProductId } from "@api/calls/getReviewsByProductId"
+import { addReviewAction } from "@api/actions/addReviewAction"
 
 type ProductDetailsPageProps = {
 	params: {
@@ -27,6 +30,7 @@ const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
 	const { productId } = params
 
 	const product = await getProductById(productId)
+	const reviews = await getReviewsByProductId(productId)
 
 	if (!product) {
 		notFound()
@@ -36,7 +40,7 @@ const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
 		<main className="grid gap-8">
 			<section>
 				<ProductItemCoverImg src={product.images[0].url} alt={product.name} />
-				<h1 className="mt-8 text-lg font-bold text-gray-800">{product.name}</h1>
+				<h1 className="mt-8 text-xl font-bold text-gray-800">{product.name}</h1>
 				<p className="mt-1 text-gray-500">{product.description}</p>
 			</section>
 
@@ -44,8 +48,16 @@ const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
 				<RelatedProducts {...{ product }} />
 			</section>
 
-			<section>
-				<AddReviewForm />
+			<section className="flex gap-8">
+				<div className="flex flex-col gap-4">
+					<h2 className="text-lg font-bold">Add your review</h2>
+					<AddReviewForm action={addReviewAction} className="w-96" />
+				</div>
+
+				<div className="flex w-full flex-col gap-4">
+					<h3 className="text-lg font-bold">Reviews</h3>
+					<ReviewList {...{ reviews }} />
+				</div>
 			</section>
 		</main>
 	)

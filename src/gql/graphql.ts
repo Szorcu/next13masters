@@ -10804,6 +10804,15 @@ export type ReviewCreateMutationVariables = Exact<{
 
 export type ReviewCreateMutation = { createReview?: { id: string } | null };
 
+export type ReviewListItemFragment = { id: string, headline: string, rating: number, content: string, name: string, createdAt: unknown };
+
+export type ReviewsGetByProductIdQueryVariables = Exact<{
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type ReviewsGetByProductIdQuery = { reviews: Array<{ id: string, headline: string, rating: number, content: string, name: string, createdAt: unknown }> };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -10876,6 +10885,16 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
   price
 }
     `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
+export const ReviewListItemFragmentDoc = new TypedDocumentString(`
+    fragment ReviewListItem on Review {
+  id
+  headline
+  rating
+  content
+  name
+  createdAt
+}
+    `, {"fragmentName":"ReviewListItem"}) as unknown as TypedDocumentString<ReviewListItemFragment, unknown>;
 export const CollectionsGetBySlugDocument = new TypedDocumentString(`
     query CollectionsGetBySlug($slug: String!) {
   collections(where: {slug: $slug}) {
@@ -11056,3 +11075,15 @@ export const ReviewCreateDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ReviewCreateMutation, ReviewCreateMutationVariables>;
+export const ReviewsGetByProductIdDocument = new TypedDocumentString(`
+    query ReviewsGetByProductId($productId: ID!) {
+  reviews(where: {product: {id: $productId}}) {
+    id
+    headline
+    rating
+    content
+    name
+    createdAt
+  }
+}
+    `) as unknown as TypedDocumentString<ReviewsGetByProductIdQuery, ReviewsGetByProductIdQueryVariables>;

@@ -1,26 +1,33 @@
-import React from "react"
-import { addReview } from "@api/calls/addReview"
+"use client"
 
-export const AddReviewForm = () => {
-	const addReviewAction = async (formData: FormData) => {
-		"use server"
+import React, { useRef } from "react"
+import clsx from "clsx"
 
-		const reviewData = {
-			headline: formData.get("headline") as string,
-			content: formData.get("content") as string,
-			rating: parseInt(formData.get("rating") as string),
-			name: formData.get("name") as string,
-			email: formData.get("email") as string,
-		}
+type AddReviewFormProps = {
+	className?: string
 
-		await addReview(reviewData)
+	action: (formData: FormData) => Promise<void>
+}
+
+export const AddReviewForm = ({ className, action }: AddReviewFormProps) => {
+	const formRef = useRef<HTMLFormElement>(null)
+
+	const handeleFormSubmit = async (formData: FormData) => {
+		await action(formData)
+
+		formRef.current?.reset()
 	}
 
 	return (
-		<form className="flex flex-col gap-2" data-testid="add-review-form" action={addReviewAction}>
+		<form
+			ref={formRef}
+			className={clsx("flex flex-col gap-2", className)}
+			data-testid="add-review-form"
+			action={handeleFormSubmit}
+		>
 			<input type="text" required name="headline" placeholder="Review title" />
 			<textarea name="content" placeholder="Review content" />
-			<input type="number" name="rating" placeholder="Rating" />
+			<input type="number" name="rating" min={1} max={5} placeholder="Rating" />
 			<input type="text" name="name" placeholder="Username" />
 			<input type="email" name="email" placeholder="Email" />
 
