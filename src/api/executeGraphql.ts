@@ -1,3 +1,4 @@
+import { HYGRAPH_AUTH_TOKEN } from "@/constants/common"
 import { type TypedDocumentString } from "@/gql/graphql"
 
 type GraphQLResponse<T> =
@@ -20,11 +21,13 @@ export const executeGraphql = async <TResult, TVariables>(
 		}),
 		headers: {
 			"Content-Type": "application/json",
+			Authorization: `Bearer ${HYGRAPH_AUTH_TOKEN}`,
 		},
 	})
 	const graphqlResponse = (await response.json()) as GraphQLResponse<TResult>
 
 	if (graphqlResponse.errors) {
+		console.log(query, graphqlResponse.errors)
 		throw TypeError(`GraphQL Error`, {
 			cause: graphqlResponse.errors,
 		})

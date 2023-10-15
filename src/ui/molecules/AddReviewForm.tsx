@@ -21,7 +21,7 @@ export const AddReviewForm = ({ className, action }: AddReviewFormProps) => {
 	return (
 		<form
 			ref={formRef}
-			className={clsx("flex flex-col gap-2", className)}
+			className={clsx("flex flex-col gap-4", className)}
 			data-testid="add-review-form"
 			action={handeleFormSubmit}
 		>

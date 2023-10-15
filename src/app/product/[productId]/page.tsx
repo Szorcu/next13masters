@@ -8,6 +8,8 @@ import { AddReviewForm } from "@ui/molecules/AddReviewForm"
 import { ReviewList } from "@ui/molecules/ReviewList"
 import { getReviewsByProductId } from "@api/calls/getReviewsByProductId"
 import { addReviewAction } from "@api/actions/addReviewAction"
+import { FormButton } from "@ui/atoms/FormButton"
+import { addProductToCartAction } from "@api/actions/addProductToCartAction"
 
 type ProductDetailsPageProps = {
 	params: {
@@ -37,11 +39,16 @@ const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
 	}
 
 	return (
-		<main className="grid gap-8">
+		<main className="grid gap-8 pb-6">
 			<section>
 				<ProductItemCoverImg src={product.images[0].url} alt={product.name} />
 				<h1 className="mt-8 text-xl font-bold text-gray-800">{product.name}</h1>
 				<p className="mt-1 text-gray-500">{product.description}</p>
+
+				<form>
+					<input type="hidden" name="productId" value={productId} />
+					<FormButton formAction={addProductToCartAction}>Add to cart</FormButton>
+				</form>
 			</section>
 
 			<section>
