@@ -1,0 +1,5 @@
+query OrderItemGetById($itemId: ID!) {
+	orderItem(where: { id: $itemId }) {
+		...OrderItem
+	}
+}

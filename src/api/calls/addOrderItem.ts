@@ -1,7 +1,7 @@
 import { executeGraphql } from "@api/executeGraphql"
-import { OrderAddProductDocument, ProductGetByIdDocument } from "@gql/graphql"
+import { OrderAddItemDocument, ProductGetByIdDocument } from "@gql/graphql"
 
-export const addProductToCart = async (orderId: string, productId: string) => {
+export const addOrderItem = async (orderId: string, productId: string) => {
 	const { product } = await executeGraphql(ProductGetByIdDocument, {
 		id: productId,
 	})
@@ -10,7 +10,7 @@ export const addProductToCart = async (orderId: string, productId: string) => {
 		throw new Error(`Product with id ${productId} not found`)
 	}
 
-	await executeGraphql(OrderAddProductDocument, {
+	await executeGraphql(OrderAddItemDocument, {
 		orderId,
 		productId,
 		productTotal: product.price,

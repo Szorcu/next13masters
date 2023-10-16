@@ -1,9 +1,6 @@
 fragment OrderInfo on Order {
 	id
 	orderItems {
-		quantity
-		product {
-			...ProductListItem
-		}
+		...OrderItem
 	}
 }

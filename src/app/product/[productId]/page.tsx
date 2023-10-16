@@ -47,7 +47,9 @@ const ProductDetailsPage = async ({ params }: ProductDetailsPageProps) => {
 
 				<form>
 					<input type="hidden" name="productId" value={productId} />
-					<FormButton formAction={addProductToCartAction}>Add to cart</FormButton>
+					<FormButton dataTestId="add-to-cart-button" formAction={addProductToCartAction}>
+						Add to cart
+					</FormButton>
 				</form>
 			</section>
 

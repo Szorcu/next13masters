@@ -10731,28 +10731,45 @@ export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CollectionsGetListQuery = { collections: Array<{ id: string, name: string, slug: string, image: { url: string } }> };
 
-export type OrderAddProductMutationVariables = Exact<{
+export type OrderAddItemMutationVariables = Exact<{
   orderId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   productTotal: Scalars['Int']['input'];
 }>;
 
 
-export type OrderAddProductMutation = { createOrderItem?: { id: string } | null };
+export type OrderAddItemMutation = { createOrderItem?: { id: string } | null };
+
+export type OrderChangeItemQuantityMutationVariables = Exact<{
+  quantity: Scalars['Int']['input'];
+  itemId: Scalars['ID']['input'];
+}>;
+
+
+export type OrderChangeItemQuantityMutation = { updateOrderItem?: { quantity: number } | null };
 
 export type OrderCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OrderCreateMutation = { createOrder?: { id: string, orderItems: Array<{ quantity: number, product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null }> } | null };
+export type OrderCreateMutation = { createOrder?: { id: string, orderItems: Array<{ id: string, quantity: number, product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null }> } | null };
 
 export type OrderGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type OrderGetByIdQuery = { order?: { id: string, orderItems: Array<{ quantity: number, product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null }> } | null };
+export type OrderGetByIdQuery = { order?: { id: string, orderItems: Array<{ id: string, quantity: number, product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null }> } | null };
 
-export type OrderInfoFragment = { id: string, orderItems: Array<{ quantity: number, product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null }> };
+export type OrderInfoFragment = { id: string, orderItems: Array<{ id: string, quantity: number, product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null }> };
+
+export type OrderItemFragment = { id: string, quantity: number, product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null };
+
+export type OrderItemGetByIdQueryVariables = Exact<{
+  itemId: Scalars['ID']['input'];
+}>;
+
+
+export type OrderItemGetByIdQuery = { orderItem?: { id: string, quantity: number, product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null } | null };
 
 export type ProductDetailFragment = { id: string, name: string, description: string, price: number, collections: Array<{ slug: string }>, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }>, variants: Array<{ __typename: 'ProductColorVariant', name: string } | { __typename: 'ProductSizeVariant', name: string } | {}> };
 
@@ -10880,17 +10897,41 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
   price
 }
     `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
+export const OrderItemFragmentDoc = new TypedDocumentString(`
+    fragment OrderItem on OrderItem {
+  id
+  quantity
+  product {
+    ...ProductListItem
+  }
+}
+    fragment ProductListItem on Product {
+  id
+  name
+  description
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+  price
+}`, {"fragmentName":"OrderItem"}) as unknown as TypedDocumentString<OrderItemFragment, unknown>;
 export const OrderInfoFragmentDoc = new TypedDocumentString(`
     fragment OrderInfo on Order {
   id
   orderItems {
-    quantity
-    product {
-      ...ProductListItem
-    }
+    ...OrderItem
   }
 }
-    fragment ProductListItem on Product {
+    fragment OrderItem on OrderItem {
+  id
+  quantity
+  product {
+    ...ProductListItem
+  }
+}
+fragment ProductListItem on Product {
   id
   name
   description
@@ -10963,15 +11004,22 @@ export const CollectionsGetListDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<CollectionsGetListQuery, CollectionsGetListQueryVariables>;
-export const OrderAddProductDocument = new TypedDocumentString(`
-    mutation OrderAddProduct($orderId: ID!, $productId: ID!, $productTotal: Int!) {
+export const OrderAddItemDocument = new TypedDocumentString(`
+    mutation OrderAddItem($orderId: ID!, $productId: ID!, $productTotal: Int!) {
   createOrderItem(
     data: {quantity: 1, total: $productTotal, order: {connect: {id: $orderId}}, product: {connect: {id: $productId}}}
   ) {
     id
   }
 }
-    `) as unknown as TypedDocumentString<OrderAddProductMutation, OrderAddProductMutationVariables>;
+    `) as unknown as TypedDocumentString<OrderAddItemMutation, OrderAddItemMutationVariables>;
+export const OrderChangeItemQuantityDocument = new TypedDocumentString(`
+    mutation OrderChangeItemQuantity($quantity: Int!, $itemId: ID!) {
+  updateOrderItem(data: {quantity: $quantity}, where: {id: $itemId}) {
+    quantity
+  }
+}
+    `) as unknown as TypedDocumentString<OrderChangeItemQuantityMutation, OrderChangeItemQuantityMutationVariables>;
 export const OrderCreateDocument = new TypedDocumentString(`
     mutation OrderCreate {
   createOrder(data: {total: 0}) {
@@ -10981,10 +11029,14 @@ export const OrderCreateDocument = new TypedDocumentString(`
     fragment OrderInfo on Order {
   id
   orderItems {
-    quantity
-    product {
-      ...ProductListItem
-    }
+    ...OrderItem
+  }
+}
+fragment OrderItem on OrderItem {
+  id
+  quantity
+  product {
+    ...ProductListItem
   }
 }
 fragment ProductListItem on Product {
@@ -11008,10 +11060,14 @@ export const OrderGetByIdDocument = new TypedDocumentString(`
     fragment OrderInfo on Order {
   id
   orderItems {
-    quantity
-    product {
-      ...ProductListItem
-    }
+    ...OrderItem
+  }
+}
+fragment OrderItem on OrderItem {
+  id
+  quantity
+  product {
+    ...ProductListItem
   }
 }
 fragment ProductListItem on Product {
@@ -11026,6 +11082,31 @@ fragment ProductListItem on Product {
   }
   price
 }`) as unknown as TypedDocumentString<OrderGetByIdQuery, OrderGetByIdQueryVariables>;
+export const OrderItemGetByIdDocument = new TypedDocumentString(`
+    query OrderItemGetById($itemId: ID!) {
+  orderItem(where: {id: $itemId}) {
+    ...OrderItem
+  }
+}
+    fragment OrderItem on OrderItem {
+  id
+  quantity
+  product {
+    ...ProductListItem
+  }
+}
+fragment ProductListItem on Product {
+  id
+  name
+  description
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+  price
+}`) as unknown as TypedDocumentString<OrderItemGetByIdQuery, OrderItemGetByIdQueryVariables>;
 export const ProductGetByIdDocument = new TypedDocumentString(`
     query ProductGetById($id: ID!) {
   product(where: {id: $id}) {

@@ -1,6 +1,8 @@
 import { cookies } from "next/headers"
+import { revalidatePath } from "next/cache"
+import { changeOrderItemQuantityAction } from "./changeOrderItemQuantityAction"
 import { ORDER_ID_COOKIE } from "@/constants/cookies"
-import { addProductToCart } from "@api/calls/addProductToOrder"
+import { addOrderItem } from "@api/calls/addOrderItem"
 import { createOrder } from "@api/calls/createOrder"
 import { getOrderFromCookies } from "@api/calls/getOrderFromCookies"
 
@@ -9,9 +11,17 @@ export const addProductToCartAction = async (formData: FormData) => {
 
 	const productId = formData.get("productId") as string
 
-	const { id: orderId } = await getOrCreateOrder()
+	const { id: orderId, orderItems } = await getOrCreateOrder()
 
-	await addProductToCart(orderId, productId)
+	const orderItem = orderItems.find((item) => item.product?.id === productId)
+
+	if (orderItem) {
+		await changeOrderItemQuantityAction(orderItem.id, orderItem.quantity + 1)
+	} else {
+		await addOrderItem(orderId, productId)
+	}
+
+	revalidatePath("/cart")
 }
 
 const getOrCreateOrder = async () => {
